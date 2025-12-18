@@ -1,9 +1,11 @@
 import random
 import tkinter
+from  threading import Thread
 
 from tkinter import Canvas
 from submarine import Submarine
 from bubble import Bubble
+from time import sleep
 
 window = tkinter.Tk()
 
@@ -16,6 +18,7 @@ canvas.pack()
 
 #добавляем объект подводной лодки
 submarine = Submarine(canvas)
+
 
 
 bubbles= []
@@ -31,5 +34,13 @@ for i in range(5):
 
 
 window.bind("<Key>", submarine.move)
+
+def move_bubble():
+    while True:
+        for bubble in bubbles:
+            bubble.move()
+            sleep(.1)
+
+Thread(target=move_bubble, daemon= True).start()
 
 window.mainloop()
